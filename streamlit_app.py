@@ -1,31 +1,38 @@
 import streamlit as st
-import requests
 
-# Set the app title 
-st.title('This Is My First Streamlit!!')
+# Set the app title
+st.title('Unit Converter')
 
-# Add a welcome message 
-st.write('Welcome to my Streamlit app!')
+# Add a welcome message
+st.write('Welcome to the Unit Converter App!')
 
-# Create a text input 
+# Create a text input for a custom message
 widgetuser_input = st.text_input('Enter a custom message:', 'Hello, Streamlit!')
-
-# Display the customized message 
 st.write('Customized Message:', widgetuser_input)
 
-# Senarai mata wang yang disokong (boleh tambah lagi jika perlu)
-currency_options = ['MYR', 'USD', 'EUR', 'GBP', 'JPY', 'SGD', 'AUD', 'CNY']
+# Unit types (you can add more categories like mass, temperature, etc.)
+unit_category = st.selectbox('Select a unit category:', ['Length'])
 
-# Dropdown untuk memilih mata wang asas
-base_currency = st.selectbox('Pilih mata wang asas:', currency_options)
+# Define units and their conversion factors (relative to base unit: meter)
+length_units = {
+    'Meter (m)': 1.0,
+    'Kilometer (km)': 1000.0,
+    'Centimeter (cm)': 0.01,
+    'Millimeter (mm)': 0.001,
+    'Mile (mi)': 1609.34,
+    'Yard (yd)': 0.9144,
+    'Foot (ft)': 0.3048,
+    'Inch (in)': 0.0254
+}
 
-# API call bergantung pada pilihan pengguna
-response = requests.get(f'https://api.vatcomply.com/rates?base={base_currency}')
+# Show length unit converter
+if unit_category == 'Length':
+    from_unit = st.selectbox('From Unit:', list(length_units.keys()))
+    to_unit = st.selectbox('To Unit:', list(length_units.keys()))
+    value = st.number_input('Enter value to convert:', min_value=0.0, value=1.0)
 
-# Papar output jika berjaya
-if response.status_code == 200:
-    data = response.json()
-    st.write(f'Kadar tukaran untuk: {base_currency}')
-    st.json(data)  # nicely formatted JSON output
-else:
-    st.error(f"API call failed with status code: {response.status_code}")
+    # Convert the value
+    result = value * length_units[from_unit] / length_units[to_unit]
+
+    # Display the result
+    st.write(f'{value} {from_unit} is equal to {result:.4f} {to_unit}')
