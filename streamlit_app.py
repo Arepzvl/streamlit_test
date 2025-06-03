@@ -1,5 +1,25 @@
 import streamlit as st
 
+# Inject CSS to set a background image or color
+st.markdown(
+    """
+    <style>
+    .stApp {
+        background-image: url("https://images.unsplash.com/photo-1503264116251-35a269479413?auto=format&fit=crop&w=1950&q=80");
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+    }
+    .block-container {
+        background-color: rgba(255, 255, 255, 0.8);  /* Optional: white background behind widgets */
+        padding: 2rem;
+        border-radius: 10px;
+    }
+    </style>
+    """,
+    unsafe_allow_html=True
+)
+
 # Set the app title
 st.title('Unit Converter')
 
@@ -36,3 +56,4 @@ if unit_category == 'Length':
 
     # Display the result
     st.write(f'{value} {from_unit} is equal to {result:.4f} {to_unit}')
+
