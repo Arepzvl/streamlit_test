@@ -31,16 +31,10 @@ body_parts = ['abs', 'back', 'biceps', 'cardio', 'chest', 'legs', 'shoulders']
 selected_part = st.selectbox("Select body part to train:", body_parts)
 
 # 🔌 Setup API (ExerciseDB via RapidAPI)
-import requests
-
-muscle = 'biceps'
-api_url = 'https://api.api-ninjas.com/v1/exercises?muscle={}'.format(muscle)
-response = requests.get(api_url, headers={'X-Api-Key': 'YOUR_API_KEY'})
-if response.status_code == requests.codes.ok:
-    print(response.text)
-else:
-    print("Error:", response.status_code, response.text)
-
+api_url = f"https://exercisedb.p.rapidapi.com/exercises/bodyPart/{selected_part}"
+headers = {
+    "X-RapidAPI-Key": "YOUR_RAPIDAPI_KEY",  # Gantikan dengan kunci RapidAPI anda
+    "X-RapidAPI-Host": "exercisedb.p.rapidapi.com"
 }
 
 # 🧠 Fetch data from API
@@ -70,3 +64,4 @@ if data:
 
 # Footer
 st.markdown("<br><hr><center>Made for University Project – FitTrackU 💪</center>", unsafe_allow_html=True)
+
