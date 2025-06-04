@@ -1,59 +1,66 @@
 import streamlit as st
+import requests
 
-# Inject CSS to set a background image or color
+# 🌆 Inject background image
 st.markdown(
     """
     <style>
     .stApp {
-        background-image: url("https://images.unsplash.com/photo-1503264116251-35a269479413?auto=format&fit=crop&w=1950&q=80");
+        background-image: url("https://images.unsplash.com/photo-1583454110551-21f2fa2f7ed3?auto=format&fit=crop&w=1950&q=80");
         background-size: cover;
         background-repeat: no-repeat;
         background-attachment: fixed;
     }
     .block-container {
-        background-color: rgba(255, 255, 255, 0.8);  /* Optional: white background behind widgets */
+        background-color: rgba(255, 255, 255, 0.9);
         padding: 2rem;
-        border-radius: 10px;
+        border-radius: 12px;
     }
     </style>
     """,
     unsafe_allow_html=True
 )
 
-# Set the app title
-st.title('Unit Converter')
+# 🏋️‍♂️ FitTrackU Title
+st.title("🏋️ FitTrackU – Exercise Finder")
 
-# Add a welcome message
-st.write('Welcome to the Unit Converter App!')
+st.markdown("Welcome to FitTrackU! Find the best workouts for your fitness journey.")
 
-# Create a text input for a custom message
-widgetuser_input = st.text_input('Enter a custom message:', 'Hello, Streamlit!')
-st.write('Customized Message:', widgetuser_input)
+# ✅ Choose body part
+body_parts = ['abs', 'back', 'biceps', 'cardio', 'chest', 'legs', 'shoulders']
+selected_part = st.selectbox("Select body part to train:", body_parts)
 
-# Unit types (you can add more categories like mass, temperature, etc.)
-unit_category = st.selectbox('Select a unit category:', ['Length'])
-
-# Define units and their conversion factors (relative to base unit: meter)
-length_units = {
-    'Meter (m)': 1.0,
-    'Kilometer (km)': 1000.0,
-    'Centimeter (cm)': 0.01,
-    'Millimeter (mm)': 0.001,
-    'Mile (mi)': 1609.34,
-    'Yard (yd)': 0.9144,
-    'Foot (ft)': 0.3048,
-    'Inch (in)': 0.0254
+# 🔌 Setup API (ExerciseDB via RapidAPI)
+api_url = f"https://exercisedb.p.rapidapi.com/exercises/bodyPart/{selected_part}"
+headers = {
+    "X-RapidAPI-Key": "YOUR_RAPIDAPI_KEY",  # Gantikan dengan kunci RapidAPI anda
+    "X-RapidAPI-Host": "exercisedb.p.rapidapi.com"
 }
 
-# Show length unit converter
-if unit_category == 'Length':
-    from_unit = st.selectbox('From Unit:', list(length_units.keys()))
-    to_unit = st.selectbox('To Unit:', list(length_units.keys()))
-    value = st.number_input('Enter value to convert:', min_value=0.0, value=1.0)
+# 🧠 Fetch data from API
+@st.cache_data
+def fetch_exercises():
+    try:
+        response = requests.get(api_url, headers=headers)
+        if response.status_code == 200:
+            return response.json()
+        else:
+            st.error("Failed to fetch data from API.")
+            return []
+    except Exception as e:
+        st.error(f"Error occurred: {e}")
+        return []
 
-    # Convert the value
-    result = value * length_units[from_unit] / length_units[to_unit]
+# 📋 Display exercises
+data = fetch_exercises()
+if data:
+    st.markdown(f"### Showing exercises for **{selected_part.capitalize()}**:")
+    for exercise in data[:10]:  # Limit to 10 items
+        st.markdown(f"#### {exercise['name'].capitalize()}")
+        st.image(exercise['gifUrl'], width=300)
+        st.write(f"**Target Muscle:** {exercise['target'].capitalize()}")
+        st.write(f"**Equipment:** {exercise['equipment'].capitalize()}")
+        st.markdown("---")
 
-    # Display the result
-    st.write(f'{value} {from_unit} is equal to {result:.4f} {to_unit}')
-
+# Footer
+st.markdown("<br><hr><center>Made for University Project – FitTrackU 💪</center>", unsafe_allow_html=True)
