@@ -1,7 +1,13 @@
 import streamlit as st
 import requests
+from dotenv import load_dotenv
+import os
 
-# 🌆 Inject background image
+# 🔐 Load API key from .env (pastikan fail .env ada)
+load_dotenv()
+API_KEY = os.getenv("RAPIDAPI_KEY")  # Letakkan API key dalam fail .env
+
+# 🌆 Inject background image & style
 st.markdown(
     """
     <style>
@@ -21,50 +27,55 @@ st.markdown(
     unsafe_allow_html=True
 )
 
-# 🏋️‍♂️ FitTrackU Title
+# 🏋️‍♂️ Title
 st.title("🏋️ FitTrackU – Exercise Finder")
+st.write("Welcome to FitTrackU! Search exercises by body part.")
 
-st.markdown("Welcome to FitTrackU! Find the best workouts for your fitness journey.")
-
-# ✅ Choose body part
-body_parts = ['abs', 'back', 'biceps', 'cardio', 'chest', 'legs', 'shoulders']
-selected_part = st.selectbox("Select body part to train:", body_parts)
-
-# 🔌 Setup API (ExerciseDB via RapidAPI)
-api_url = f"https://exercisedb.p.rapidapi.com/exercises/bodyPart/{selected_part}"
+# 🔌 API Headers
 headers = {
-    "X-RapidAPI-Key": "5742ec0d6dmsh5c71930597ff3b0p186184jsn8eeb827667e3",  # Gantikan dengan kunci RapidAPI anda
+    "X-RapidAPI-Key": "5742ec0d6dmsh5c71930597ff3b0p186184jsn8eeb827667e3'"
     "X-RapidAPI-Host": "exercisedb.p.rapidapi.com"
 }
 
-# 🧠 Fetch data from API
+# 🧠 Fetch available body parts
 @st.cache_data
-def fetch_exercises():
-    try:
-        response = requests.get(api_url, headers=headers)
-        st.write("Response status:", response.status_code)  # ← Tambah ini untuk debug
-        if response.status_code == 200:
-            return response.json()
-        else:
-            st.error(f"❌ Failed to fetch data: {response.status_code}")
-            st.text(response.text)  # Tunjuk mesej error dari API
-            return []
-    except Exception as e:
-        st.error(f"Error occurred: {e}")
+def get_body_parts():
+    url = "https://exercisedb.p.rapidapi.com/exercises/bodyPartList"
+    response = requests.get(url, headers=headers)
+    if response.status_code == 200:
+        return response.json()
+    else:
+        st.error("❌ Failed to load body parts.")
         return []
 
+# 📥 Fetch exercises by body part
+@st.cache_data
+def fetch_exercises(part):
+    url = f"https://exercisedb.p.rapidapi.com/exercises/bodyPart/{part.lower()}"
+    response = requests.get(url, headers=headers)
+    if response.status_code == 200:
+        return response.json()
+    else:
+        st.error(f"❌ Failed to fetch data: {response.status_code}")
+        st.text(response.text)
+        return []
 
-# 📋 Display exercises
-data = fetch_exercises()
-if data:
-    st.markdown(f"### Showing exercises for **{selected_part.capitalize()}**:")
-    for exercise in data[:10]:  # Limit to 10 items
-        st.markdown(f"#### {exercise['name'].capitalize()}")
-        st.image(exercise['gifUrl'], width=300)
-        st.write(f"**Target Muscle:** {exercise['target'].capitalize()}")
-        st.write(f"**Equipment:** {exercise['equipment'].capitalize()}")
-        st.markdown("---")
+# 🔽 Body part dropdown
+body_parts = get_body_parts()
+if body_parts:
+    selected_part = st.selectbox("Select body part:", body_parts)
+    data = fetch_exercises(selected_part)
+
+    if data:
+        st.subheader(f"Showing exercises for **{selected_part.capitalize()}**:")
+        for ex in data[:10]:  # Limit to 10 results
+            st.markdown(f"### {ex['name'].capitalize()}")
+            st.image(ex['gifUrl'], width=300)
+            st.write(f"**Target:** {ex['target'].capitalize()}")
+            st.write(f"**Equipment:** {ex['equipment'].capitalize()}")
+            st.markdown("---")
 
 # Footer
-st.markdown("<br><hr><center>Made for University Project – FitTrackU 💪</center>", unsafe_allow_html=True)
+st.markdown("<br><hr><center>💪 FitTrackU – Built for University Project</center>", unsafe_allow_html=True)
+
 
