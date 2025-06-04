@@ -42,14 +42,17 @@ headers = {
 def fetch_exercises():
     try:
         response = requests.get(api_url, headers=headers)
+        st.write("Response status:", response.status_code)  # ← Tambah ini untuk debug
         if response.status_code == 200:
             return response.json()
         else:
-            st.error("Failed to fetch data from API.")
+            st.error(f"❌ Failed to fetch data: {response.status_code}")
+            st.text(response.text)  # Tunjuk mesej error dari API
             return []
     except Exception as e:
         st.error(f"Error occurred: {e}")
         return []
+
 
 # 📋 Display exercises
 data = fetch_exercises()
