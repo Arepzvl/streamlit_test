@@ -33,7 +33,7 @@ selected_part = st.selectbox("Select body part to train:", body_parts)
 # 🔌 Setup API (ExerciseDB via RapidAPI)
 api_url = f"https://exercisedb.p.rapidapi.com/exercises/bodyPart/{selected_part}"
 headers = {
-    "X-RapidAPI-Key": "YOUR_RAPIDAPI_KEY",  # Gantikan dengan kunci RapidAPI anda
+    "X-RapidAPI-Key": "5742ec0d6dmsh5c71930597ff3b0p186184jsn8eeb827667e3'",  # Gantikan dengan kunci RapidAPI anda
     "X-RapidAPI-Host": "exercisedb.p.rapidapi.com"
 }
 
