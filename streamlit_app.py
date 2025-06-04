@@ -31,10 +31,16 @@ body_parts = ['abs', 'back', 'biceps', 'cardio', 'chest', 'legs', 'shoulders']
 selected_part = st.selectbox("Select body part to train:", body_parts)
 
 # 🔌 Setup API (ExerciseDB via RapidAPI)
-api_url = f"https://exercisedb.p.rapidapi.com/exercises/bodyPart/{selected_part}"
-headers = {
-    "X-RapidAPI-Key": "YOUR_RAPIDAPI_KEY",  # Gantikan dengan kunci RapidAPI anda
-    "X-RapidAPI-Host": "exercisedb.p.rapidapi.com"
+import requests
+
+muscle = 'biceps'
+api_url = 'https://api.api-ninjas.com/v1/exercises?muscle={}'.format(muscle)
+response = requests.get(api_url, headers={'X-Api-Key': 'YOUR_API_KEY'})
+if response.status_code == requests.codes.ok:
+    print(response.text)
+else:
+    print("Error:", response.status_code, response.text)
+
 }
 
 # 🧠 Fetch data from API
