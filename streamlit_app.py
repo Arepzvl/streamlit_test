@@ -33,8 +33,10 @@ st.write("Welcome to FitTrackU! Search exercises by body part.")
 
 # 🔌 API Headers
 headers = {
-    "X-RapidAPI-Key": "5742ec0d6dmsh5c71930597ff3b0p186184jsn8eeb827667e3'"
-    "X-RapidAPI-Host": exercisedb.p.rapidapi.com' 
+    "X-RapidAPI-Key": "5742ec0d6dmsh5c71930597ff3b0p186184jsn8eeb827667e3",
+    "X-RapidAPI-Host": "exercisedb.p.rapidapi.com"
+}
+
 }
 
 # 🧠 Fetch available body parts
