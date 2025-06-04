@@ -1,11 +1,12 @@
 import streamlit as st
 import requests
-from dotenv import load_dotenv
 import os
+from dotenv import load_dotenv
 
-# 🔐 Load API key from .env (pastikan fail .env ada)
-load_dotenv()
-API_KEY = os.getenv("RAPIDAPI_KEY")  # Letakkan API key dalam fail .env
+load_dotenv()  # Ini akan baca fail .env secara automatik
+
+API_KEY = os.getenv("RAPIDAPI_KEY")
+
 
 # 🌆 Inject background image & style
 st.markdown(
@@ -33,9 +34,8 @@ st.write("Welcome to FitTrackU! Search exercises by body part.")
 
 # 🔌 API Headers
 headers = {
-    "X-RapidAPI-Key": "5742ec0d6dmsh5c71930597ff3b0p186184jsn8eeb827667e3",
+    "X-RapidAPI-Key": API_KEY,
     "X-RapidAPI-Host": "exercisedb.p.rapidapi.com"
-
 }
 
 # 🧠 Fetch available body parts
