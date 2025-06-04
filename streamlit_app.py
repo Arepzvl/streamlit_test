@@ -3,17 +3,16 @@ import requests
 import os
 from dotenv import load_dotenv
 
-load_dotenv()  # Ini akan baca fail .env secara automatik
+load_dotenv()  # Baca fail .env untuk API key
 
-API_KEY = os.getenv("RAPIDAPI_KEY")
+OPENWEATHER_API_KEY = os.getenv("OPENWEATHER_API_KEY")
 
-
-# 🌆 Inject background image & style
+# Background dan style baru untuk travel
 st.markdown(
     """
     <style>
     .stApp {
-        background-image: url("https://images.unsplash.com/photo-1583454110551-21f2fa2f7ed3?auto=format&fit=crop&w=1950&q=80");
+        background-image: url("https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1950&q=80");
         background-size: cover;
         background-repeat: no-repeat;
         background-attachment: fixed;
@@ -28,55 +27,27 @@ st.markdown(
     unsafe_allow_html=True
 )
 
-# 🏋️‍♂️ Title
-st.title("🏋️ FitTrackU – Exercise Finder")
-st.write("Welcome to FitTrackU! Search exercises by body part.")
+st.title("✈️ TravelPlanner – Weather & Trip Helper")
+st.write("Plan your trips by checking current weather in any city!")
 
-# 🔌 API Headers
-headers = {
-    "X-RapidAPI-Key": API_KEY,
-    "X-RapidAPI-Host": "exercisedb.p.rapidapi.com"
-}
+city = st.text_input("Enter a city name:", "Kuala Lumpur")
 
-# 🧠 Fetch available body parts
-@st.cache_data
-def get_body_parts():
-    url = "https://exercisedb.p.rapidapi.com/exercises/bodyPartList"
-    response = requests.get(url, headers=headers)
-    if response.status_code == 200:
-        return response.json()
+if st.button("Get Weather"):
+    if city:
+        url = f"http://api.openweathermap.org/data/2.5/weather?q={city}&appid={OPENWEATHER_API_KEY}&units=metric"
+        response = requests.get(url)
+        if response.status_code == 200:
+            data = response.json()
+            st.subheader(f"Weather in {city.capitalize()}:")
+            st.write(f"Temperature: {data['main']['temp']} °C")
+            st.write(f"Weather: {data['weather'][0]['description'].capitalize()}")
+            st.write(f"Humidity: {data['main']['humidity']}%")
+            st.write(f"Wind Speed: {data['wind']['speed']} m/s")
+        else:
+            st.error("❌ City not found or API error. Please try another city.")
     else:
-        st.error("❌ Failed to load body parts.")
-        return []
+        st.warning("⚠️ Please enter a city name.")
 
-# 📥 Fetch exercises by body part
-@st.cache_data
-def fetch_exercises(part):
-    url = f"https://exercisedb.p.rapidapi.com/exercises/bodyPart/{part.lower()}"
-    response = requests.get(url, headers=headers)
-    if response.status_code == 200:
-        return response.json()
-    else:
-        st.error(f"❌ Failed to fetch data: {response.status_code}")
-        st.text(response.text)
-        return []
-
-# 🔽 Body part dropdown
-body_parts = get_body_parts()
-if body_parts:
-    selected_part = st.selectbox("Select body part:", body_parts)
-    data = fetch_exercises(selected_part)
-
-    if data:
-        st.subheader(f"Showing exercises for **{selected_part.capitalize()}**:")
-        for ex in data[:10]:  # Limit to 10 results
-            st.markdown(f"### {ex['name'].capitalize()}")
-            st.image(ex['gifUrl'], width=300)
-            st.write(f"**Target:** {ex['target'].capitalize()}")
-            st.write(f"**Equipment:** {ex['equipment'].capitalize()}")
-            st.markdown("---")
-
-# Footer
-st.markdown("<br><hr><center>💪 FitTrackU – Built for University Project</center>", unsafe_allow_html=True)
+st.markdown("<br><hr><center>🌏 TravelPlanner – University Project</center>", unsafe_allow_html=True)
 
 
