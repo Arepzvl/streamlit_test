@@ -30,7 +30,7 @@ def generate_packing_list(destination):
 # Weather forecast from Malaysia government API
 def get_malaysia_weather_forecast(destination):
     try:
-        response = requests.get("https://api.data.gov.my/weather/forecast")
+        response = requests.get("https://api.data.gov.my/weather/forecast?contains=<prefix>@location__location_id")
         if response.status_code == 200:
             data = response.json()
             for entry in data:
