@@ -127,7 +127,11 @@ if st.button("✨ Generate Trip Plan"):
     st.success("✅ Trip Summary")
     st.write(f"📍 **Destination**: {destination}")
     st.write(f"📅 **From**: {start_date.strftime('%b %d, %Y')} to {end_date.strftime('%b %d, %Y')}")
-    st.write(f"💸 **Daily Budget**: RM {daily_budget:.2f}")
+
+    budget = st.selectbox(
+    "💸 Select your total budget (MYR)",
+    options=[250, 500, 750, 1000],
+    index=1  # Default to 500
 
     # Packing List
     st.markdown("### 🧳 Packing List")
