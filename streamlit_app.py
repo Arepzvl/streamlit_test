@@ -91,9 +91,8 @@ DESTINATION_ATTRACTIONS = {
         {"name": "Penang Hill", "coords": (5.4149, 100.3298), "type": "icon", "color": "green", "icon": "tree"},
         {"name": "Kek Lok Si Temple", "coords": (5.4205, 100.3382), "type": "icon", "color": "orange", "icon": "temple"},
         {"name": "George Town Street Art", "coords": (5.4141, 100.3288), "type": "icon", "color": "purple", "icon": "paint-brush"},
-        {"name": "Penang National Park", "coords": (5.4717, 100.2044), "type": "icon", "color": "darkgreen", "icon": "tree"}
+        {"name": "Penang National Park", "coords": (5.4717, 100.2044), "type": "icon", "color": "darkgreen", "icon": "tree"},
         {"name": "Escape Penang", "coords": (5.449948766600535, 100.21410237301384), "type": "icon", "color": "lightblue", "icon": "umbrella"},
-        
     ],
     "Langkawi": [
         {"name": "Sky Bridge", "coords": (6.3647, 99.6769), "type": "icon", "color": "blue", "icon": "bridge"},
