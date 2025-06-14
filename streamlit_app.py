@@ -142,7 +142,7 @@ st.subheader("Plan your next student adventure easily!")
 destination = st.selectbox("🌍 Select Destination", [
     "Kuala Lumpur",
     "Port Dickson",
-    "Melaka",
+    "Melaka", 
     "Kuantan",
     "Johor",
     "Terengganu",
@@ -150,20 +150,45 @@ destination = st.selectbox("🌍 Select Destination", [
     "Langkawi",
     "Cameron Highlands",
     "Singapore",
-    
 ])
 days = st.slider("📅 Number of Days", 1, 14, 3)
 start_date = st.date_input("📆 Start Date", datetime.date.today())
-budget = st.number_input("💸 Enter your total budget (MYR)", value=500)
 
-# Enter your OpenWeatherMap API key here
-api_key = "8447cc1e7a0d0d0d8ceef48fbf8ddee2"
+# Base budget amounts by destination type
+base_budgets = {
+    "city": 400,      # KL, Penang, Johor, etc.
+    "beach": 350,     # Port Dickson, Langkawi
+    "hill": 450,      # Cameron Highlands
+    "international": 600  # Singapore
+}
+
+# Categorize destinations
+destination_types = {
+    "Kuala Lumpur": "city",
+    "Port Dickson": "beach",
+    "Melaka": "city",
+    "Kuantan": "beach",
+    "Johor": "city",
+    "Terengganu": "beach",
+    "Penang": "city",
+    "Langkawi": "beach",
+    "Cameron Highlands": "hill",
+    "Singapore": "international"
+}
+
+# Calculate dynamic budget
+base_budget = base_budgets[destination_types[destination]]
+budget = base_budget + (days * 50)  # RM50 extra per day
+budget = st.number_input("💸 Your estimated budget (MYR)", 
+                        min_value=100,
+                        max_value=5000,
+                        value=int(budget))
 
 # === Trip Planner ===
 if st.button("✨ Generate Trip Plan"):
     end_date = start_date + datetime.timedelta(days=days - 1)
     
-    # Trip Summary - Fixed indentation and logic
+    # Trip Summary
     st.success("✅ Trip Summary")
     st.write(f"📍 **Destination**: {destination}")
     st.write(f"📅 **From**: {start_date.strftime('%b %d, %Y')} to {end_date.strftime('%b %d, %Y')}")
@@ -172,16 +197,27 @@ if st.button("✨ Generate Trip Plan"):
     if days > 0:
         daily_budget = budget / days
         st.write(f"📊 **Daily Budget**: RM {daily_budget:,.2f} (for {days} days)")
+        
+        # Budget allocation breakdown
+        st.markdown("### 💰 Budget Allocation Guide")
+        st.write(f"- 🏨 Accommodation: RM {budget*0.4/days:,.2f}/day")
+        st.write(f"- 🍽️ Food: RM {budget*0.3/days:,.2f}/day") 
+        st.write(f)- 🚍 Transport: RM {budget*0.2/days:,.2f}/day")
+        st.write(f)- 🎟 Activities: RM {budget*0.1/days:,.2f}/day")
     else:
         st.warning("Number of days must be at least 1")
-        st.stop()  # Stop execution if days is 0
+        st.stop()
+
+# Enter your OpenWeatherMap API key here
+api_key = "8447cc1e7a0d0d0d8ceef48fbf8ddee2"
+
+
 
     # Packing List
     st.markdown("### 🧳 Packing List")
     for item in generate_packing_list(destination):
         st.write(f"- {item}")
 
-    # Rest of your code remains the same...
     # Weather Info, Map, Attractions, etc.
 
     # Weather Info
