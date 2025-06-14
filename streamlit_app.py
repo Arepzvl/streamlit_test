@@ -117,10 +117,10 @@ DESTINATION_ATTRACTIONS = {
 # === Destination Coordinates ===
 DESTINATION_COORDS = {
     "Kuala Lumpur": (3.1390, 101.6869),
-    "Port Dickson": (2.522540, 101.796295)
-    "Kuantan": (3.8201, 103.3322)
-    "Johor": (1.9344, 103.3587)
-    "Terengganu" (5.0936, 102.9896)
+    "Port Dickson": (2.522540, 101.796295),
+    "Kuantan": (3.8201, 103.3322),
+    "Johor": (1.9344, 103.3587),
+    "Terengganu" (5.0936, 102.9896),
     "Penang": (5.4164, 100.3327),
     "Langkawi": (6.3500, 99.8000),
     "Cameron Highlands": (4.4693, 101.3773),
@@ -141,7 +141,7 @@ destination = st.selectbox("🌍 Select Destination", [
     "Penang",
     "Langkawi",
     "Cameron Highlands",
-    "Singapore"
+    "Singapore",
     
 ])
 days = st.slider("📅 Number of Days", 1, 14, 3)
