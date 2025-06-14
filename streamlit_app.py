@@ -44,7 +44,53 @@ def generate_packing_list(destination):
     else:
         return general
 
-# === Destination Coordinates (for maps) ===
+# === Get Nearby Attractions (using OpenStreetMap Nominatim API) ===
+def get_nearby_attractions(lat, lon, radius=5000, limit=5):
+    try:
+        url = f"https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat={lat}&lon={lon}"
+        response = requests.get(url, headers={"User-Agent": "StudentTravelPlanner"})
+        if response.status_code == 200:
+            data = response.json()
+            return data.get("display_name", "Location details not available")
+        return "No nearby attractions found"
+    except:
+        return "Could not fetch attractions"
+
+# === Predefined Interesting Places ===
+DESTINATION_ATTRACTIONS = {
+    "Kuala Lumpur": [
+        {"name": "Petronas Twin Towers", "coords": (3.1580, 101.7118), "type": "icon", "color": "blue", "icon": "camera"},
+        {"name": "KL Tower", "coords": (3.1390, 101.6869), "type": "icon", "color": "red", "icon": "camera"},
+        {"name": "Batu Caves", "coords": (3.2373, 101.6839), "type": "icon", "color": "green", "icon": "temple"},
+        {"name": "Merdeka Square", "coords": (3.1478, 101.6953), "type": "icon", "color": "orange", "icon": "flag"}
+    ],
+    "Penang": [
+        {"name": "Penang Hill", "coords": (5.4149, 100.3298), "type": "icon", "color": "green", "icon": "tree"},
+        {"name": "Kek Lok Si Temple", "coords": (5.4205, 100.3382), "type": "icon", "color": "orange", "icon": "temple"},
+        {"name": "George Town Street Art", "coords": (5.4141, 100.3288), "type": "icon", "color": "purple", "icon": "paint-brush"},
+        {"name": "Penang National Park", "coords": (5.4717, 100.2044), "type": "icon", "color": "darkgreen", "icon": "tree"}
+    ],
+    "Langkawi": [
+        {"name": "Sky Bridge", "coords": (6.3647, 99.6769), "type": "icon", "color": "blue", "icon": "bridge"},
+        {"name": "Cenang Beach", "coords": (6.2936, 99.7281), "type": "icon", "color": "lightblue", "icon": "umbrella"},
+        {"name": "Kilim Geoforest Park", "coords": (6.4075, 99.8478), "type": "icon", "color": "green", "icon": "tree"},
+        {"name": "Eagle Square", "coords": (6.3195, 99.8466), "type": "icon", "color": "red", "icon": "flag"}
+    ],
+    "Cameron Highlands": [
+        {"name": "Boh Tea Plantation", "coords": (4.5204, 101.4127), "type": "icon", "color": "green", "icon": "leaf"},
+        {"name": "Mossy Forest", "coords": (4.4933, 101.3833), "type": "icon", "color": "darkgreen", "icon": "tree"},
+        {"name": "Lavender Garden", "coords": (4.4693, 101.3773), "type": "icon", "color": "purple", "icon": "flower"},
+        {"name": "Time Tunnel Museum", "coords": (4.4629, 101.3758), "type": "icon", "color": "blue", "icon": "book"}
+    ],
+    "Singapore": [
+        {"name": "Marina Bay Sands", "coords": (1.2837, 103.8607), "type": "icon", "color": "blue", "icon": "hotel"},
+        {"name": "Gardens by the Bay", "coords": (1.2816, 103.8636), "type": "icon", "color": "green", "icon": "tree"},
+        {"name": "Sentosa Island", "coords": (1.2494, 103.8303), "type": "icon", "color": "lightblue", "icon": "umbrella"},
+        {"name": "Chinatown", "coords": (1.2838, 103.8439), "type": "icon", "color": "red", "icon": "shopping-cart"}
+    ]
+}
+
+# === Destination Coordinates ===
 DESTINATION_COORDS = {
     "Kuala Lumpur": (3.1390, 101.6869),
     "Penang": (5.4164, 100.3327),
@@ -96,45 +142,51 @@ if st.button("✨ Generate Trip Plan"):
         st.write(f"🌡️ **Temperature**: {weather['temperature']}°C (Feels like {weather['feels_like']}°C)")
         st.write(f"💧 **Humidity**: {weather['humidity']}%")
         
-        # Display Map
-        st.markdown("### 🗺️ Destination Map")
+        # Display Map with Attractions
+        st.markdown("### 🗺️ Destination Map with Attractions")
         if destination in DESTINATION_COORDS:
             lat, lon = DESTINATION_COORDS[destination]
         else:
             lat, lon = weather['lat'], weather['lon']
         
         m = folium.Map(location=[lat, lon], zoom_start=12)
+        
+        # Add main destination marker
         folium.Marker(
             [lat, lon],
             popup=destination,
-            tooltip="Your destination"
+            tooltip="Your destination",
+            icon=folium.Icon(color="black", icon="star")
         ).add_to(m)
         
-        # Add some tourist spots for popular destinations
-        if destination == "Kuala Lumpur":
-            folium.Marker(
-                [3.1580, 101.7118],
-                popup="Petronas Twin Towers",
-                icon=folium.Icon(color='blue', icon='camera')
-            ).add_to(m)
-            folium.Marker(
-                [3.1390, 101.6869],
-                popup="KL Tower",
-                icon=folium.Icon(color='red', icon='camera')
-            ).add_to(m)
-        elif destination == "Penang":
-            folium.Marker(
-                [5.4149, 100.3298],
-                popup="Penang Hill",
-                icon=folium.Icon(color='green', icon='camera')
-            ).add_to(m)
-            folium.Marker(
-                [5.4205, 100.3382],
-                popup="Kek Lok Si Temple",
-                icon=folium.Icon(color='orange', icon='camera')
-            ).add_to(m)
+        # Add predefined attractions
+        if destination in DESTINATION_ATTRACTIONS:
+            for attraction in DESTINATION_ATTRACTIONS[destination]:
+                folium.Marker(
+                    location=attraction["coords"],
+                    popup=attraction["name"],
+                    tooltip=attraction["name"],
+                    icon=folium.Icon(color=attraction["color"], icon=attraction["icon"])
+                ).add_to(m)
+        
+        # Try to get nearby attractions from OSM
+        try:
+            nearby_info = get_nearby_attractions(lat, lon)
+            if isinstance(nearby_info, str):
+                st.write(f"📍 **Location Details**: {nearby_info}")
+        except:
+            pass
         
         folium_static(m, width=700, height=400)
+        
+        # Display attractions list
+        st.markdown("### 🏞️ Top Attractions")
+        if destination in DESTINATION_ATTRACTIONS:
+            cols = st.columns(2)
+            for i, attraction in enumerate(DESTINATION_ATTRACTIONS[destination]):
+                with cols[i % 2]:
+                    st.markdown(f"📍 **{attraction['name']}**")
+                    st.write(f"🗺️ [View on Map](https://www.google.com/maps?q={attraction['coords'][0]},{attraction['coords'][1]})")
     else:
         st.warning("Could not fetch weather data. Please check your API key or destination name.")
 
@@ -143,6 +195,5 @@ if st.button("✨ Generate Trip Plan"):
     st.info("🎟️ Use your student ID for discounts on transport and museum entries.")
     st.info("🏨 Book accommodation early for better deals.")
     st.info("🗺️ Check the map above for key attractions in your destination.")
-    
-    
+    st.info("🍽️ Try local street food for budget-friendly meals.")
 
