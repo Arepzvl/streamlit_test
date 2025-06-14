@@ -236,6 +236,7 @@ budget = st.number_input("💸 Your estimated budget (MYR)",
 
 # Enter your OpenWeatherMap API key here
 api_key = "8447cc1e7a0d0d0d8ceef48fbf8ddee2"
+api_key = "5742ec0d6dmsh5c71930597ff3b0p186184jsn8eeb827667e3"
 
 # === Trip Planner ===
 if st.button("✨ Generate Trip Plan"):
