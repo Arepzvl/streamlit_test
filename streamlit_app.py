@@ -83,7 +83,7 @@ DESTINATION_ATTRACTIONS = {
     ],
     "Terengganu": [
         {"name": "Masjid Kristal", "coords": (5.322503892862815, 103.12052834232873), "type": "icon", "color": "orange", "icon": "temple"},
-        {"name": "Pasar Payang", "coords": (5.337485775923021, 103.1361146), "type": "icon", "color": "red", "icon": "shopping-cart"}
+        {"name": "Pasar Payang", "coords": (5.337485775923021, 103.1361146), "type": "icon", "color": "red", "icon": "shopping-cart"},
         {"name": "Drawnbridge Kuala Terengganu", "coords": (5.340451724170789, 103.14474695582182), "type": "icon", "color": "blue", "icon": "camera"},
         {"name": "Redang Island", "coords": (5.801370419304246, 102.99448439461156), "type": "icon", "color": "blue", "icon": "camera"},
     ],
