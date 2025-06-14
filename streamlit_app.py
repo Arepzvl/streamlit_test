@@ -164,16 +164,11 @@ if st.button("✨ Generate Trip Plan"):
     end_date = start_date + datetime.timedelta(days=days - 1)
     daily_budget = budget / days
 
-   # Trip Summary
-st.success("✅ Trip Summary")
-st.write(f"📍 **Destination**: {destination}")
-st.write(f"📅 **From**: {start_date.strftime('%b %d, %Y')} to {end_date.strftime('%b %d, %Y')}")
-
-# Calculate and display daily budget
-if days > 0:
-    daily_budget = budget / days
-    st.write(f"💸 **Total Budget**: RM {budget:,.2f}")  # Show total budget first
-    st.write(f"📊 **Daily Budget**: RM {daily_budget:,.2f} (for {days} days)")
+  #Trip Summary
+    st.success("✅ Trip Summary")
+    st.write(f"📍 **Destination**: {destination}")
+    st.write(f"📅 **From**: {start_date.strftime('%b %d, %Y')} to {end_date.strftime('%b %d, %Y')}")
+    st.write(f"💸 **Daily Budget**: RM {daily_budget:.2f}")
 else:
     st.warning("Number of days must be at least 1")
    
