@@ -57,7 +57,7 @@ start_date = st.date_input("📆 Start Date", datetime.date.today())
 budget = st.number_input("💸 Enter your total budget (MYR)", value=500)
 
 # Enter your OpenWeatherMap API key here
-api_key = "8447cc1e7a0d0d0d8ceef48fbf8ddee2"
+api_key = ""
 
 # === Trip Planner ===
 if st.button("✨ Generate Trip Plan"):
