@@ -144,4 +144,5 @@ if st.button("✨ Generate Trip Plan"):
     st.info("🏨 Book accommodation early for better deals.")
     st.info("🗺️ Check the map above for key attractions in your destination.")
     
+    
 
