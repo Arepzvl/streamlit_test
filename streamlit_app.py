@@ -64,11 +64,36 @@ DESTINATION_ATTRACTIONS = {
         {"name": "Batu Caves", "coords": (3.2373, 101.6839), "type": "icon", "color": "green", "icon": "temple"},
         {"name": "Merdeka Square", "coords": (3.1478, 101.6953), "type": "icon", "color": "orange", "icon": "flag"}
     ],
+    "Port Dickson":[
+        {"name": "Army Museum", "coords": (2.49643, 101.84729), "type": "icon", "color": "blue", "icon": "camera"},
+        {"name": "Pantai Teluk kemang", "coords": (2.454562, 101.8599476), "type": "icon", "color": "lightblue", "icon": "umbrella"},
+        {"name": "Port Dickson Ornamental Fish Center", "coords": (2.463292413830889, 101.85039595269518), "type": "icon", "color": "blue", "icon": "camera"},
+    ],
+    "Kuantan":[
+        {"name": "Teluk Cempedak", "coords": (3.8134673607867153, 103.37036876780307), "type": "icon", "color": "lightblue", "icon": "umbrella"},
+        {"name": "Menara Kuantan 188", "coords": (3.80421487213873, 103.32754978650692), "type": "icon", "color": "red", "icon": "camera"},
+        {"name": "Penyu Gergasi Pantai Pelindung", "coords": (3.834100334424492, 103.37638360000003), "type": "icon", "color": "blue", "icon": "camera"},
+        {"name": "Taman Gelora Kuantan", "coords": (3.809206965543498, 103.34928780184948), "type": "icon", "color": "green", "icon": "tree"}
+    ],
+    "Johor": [
+        {"name": "LEGOLAND Malaysia", "coords": (1.4273704688381563, 103.62948920000002), "type": "icon", "color": "blue", "icon": "camera"},
+        {"name": "Kota Tinggi Firefly Park", "coords": (1.7271644891503173, 103.91135728465744), "type": "icon", "color": "blue", "icon": "camera"},
+        {"name": "Desaru Beach", "coords": (1.5478119955238197, 104.26247003862977), "type": "icon", "color": "lightblue", "icon": "umbrella"},
+        {"name": "Johor Premium Outlet", "coords": (1.6030799550645818, 103.62164121534255), "type": "icon", "color": "red", "icon": "shopping-cart"}
+    ],
+    "Terengganu": [
+        {"name": "Masjid Kristal", "coords": (5.322503892862815, 103.12052834232873), "type": "icon", "color": "orange", "icon": "temple"},
+        {"name": "Pasar Payang", "coords": (5.337485775923021, 103.1361146), "type": "icon", "color": "red", "icon": "shopping-cart"}
+        {"name": "Drawnbridge Kuala Terengganu", "coords": (5.340451724170789, 103.14474695582182), "type": "icon", "color": "blue", "icon": "camera"},
+        {"name": "Redang Island", "coords": (5.801370419304246, 102.99448439461156), "type": "icon", "color": "blue", "icon": "camera"},
+    ],
     "Penang": [
         {"name": "Penang Hill", "coords": (5.4149, 100.3298), "type": "icon", "color": "green", "icon": "tree"},
         {"name": "Kek Lok Si Temple", "coords": (5.4205, 100.3382), "type": "icon", "color": "orange", "icon": "temple"},
         {"name": "George Town Street Art", "coords": (5.4141, 100.3288), "type": "icon", "color": "purple", "icon": "paint-brush"},
         {"name": "Penang National Park", "coords": (5.4717, 100.2044), "type": "icon", "color": "darkgreen", "icon": "tree"}
+        {"name": "Escape Penang", "coords": (5.449948766600535, 100.21410237301384), "type": "icon", "color": "lightblue", "icon": "umbrella"},
+        
     ],
     "Langkawi": [
         {"name": "Sky Bridge", "coords": (6.3647, 99.6769), "type": "icon", "color": "blue", "icon": "bridge"},
@@ -93,6 +118,10 @@ DESTINATION_ATTRACTIONS = {
 # === Destination Coordinates ===
 DESTINATION_COORDS = {
     "Kuala Lumpur": (3.1390, 101.6869),
+    "Port Dickson": (2.522540, 101.796295)
+    "Kuantan": (3.8201, 103.3322)
+    "Johor": (1.9344, 103.3587)
+    "Terengganu" (5.0936, 102.9896)
     "Penang": (5.4164, 100.3327),
     "Langkawi": (6.3500, 99.8000),
     "Cameron Highlands": (4.4693, 101.3773),
@@ -106,10 +135,15 @@ st.subheader("Plan your next student adventure easily!")
 # === Inputs ===
 destination = st.selectbox("🌍 Select Destination", [
     "Kuala Lumpur",
+    "Port Dickson",
+    "Kuantan",
+    "Johor",
+    "Terengganu",
     "Penang",
     "Langkawi",
     "Cameron Highlands",
     "Singapore"
+    
 ])
 days = st.slider("📅 Number of Days", 1, 14, 3)
 start_date = st.date_input("📆 Start Date", datetime.date.today())
@@ -127,11 +161,8 @@ if st.button("✨ Generate Trip Plan"):
     st.success("✅ Trip Summary")
     st.write(f"📍 **Destination**: {destination}")
     st.write(f"📅 **From**: {start_date.strftime('%b %d, %Y')} to {end_date.strftime('%b %d, %Y')}")
-
-    budget = st.selectbox(
-    "💸 Select your total budget (MYR)",
-    options=[250, 500, 750, 1000],
-    index=1  # Default to 500
+    st.write(f"💸 **Daily Budget**: RM {daily_budget:.2f}")
+   
 
     # Packing List
     st.markdown("### 🧳 Packing List")
