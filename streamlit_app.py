@@ -184,6 +184,10 @@ budget = st.number_input("💸 Your estimated budget (MYR)",
                         max_value=5000,
                         value=int(budget))
 
+
+# Enter your OpenWeatherMap API key here
+api_key = "8447cc1e7a0d0d0d8ceef48fbf8ddee2"
+
 # === Trip Planner ===
 if st.button("✨ Generate Trip Plan"):
     end_date = start_date + datetime.timedelta(days=days - 1)
@@ -207,10 +211,8 @@ if st.button("✨ Generate Trip Plan"):
     else:
         st.warning("Number of days must be at least 1")
         st.stop()
-# Enter your OpenWeatherMap API key here
-api_key = "8447cc1e7a0d0d0d8ceef48fbf8ddee2"
 
-     # Packing List
+    # Packing List
     st.markdown("### 🧳 Packing List")
     for item in generate_packing_list(destination):
         st.write(f"- {item}")
@@ -277,3 +279,5 @@ api_key = "8447cc1e7a0d0d0d8ceef48fbf8ddee2"
     st.info("🏨 Book accommodation early for better deals.")
     st.info("🗺️ Check the map above for key attractions in your destination.")
     st.info("🍽️ Try local street food for budget-friendly meals.")
+
+
