@@ -202,14 +202,15 @@ if st.button("✨ Generate Trip Plan"):
         st.markdown("### 💰 Budget Allocation Guide")
         st.write(f"- 🏨 Accommodation: RM {budget*0.4/days:,.2f}/day")
         st.write(f"- 🍽️ Food: RM {budget*0.3/days:,.2f}/day") 
-        st.write(f"- 🚍 Transport: RM {budget*0.2/days:,.2f}/day")
-        st.write(f"- 🎟 Activities: RM {budget*0.1/days:,.2f}/day")
+        st.write(f)- 🚍 Transport: RM {budget*0.2/days:,.2f}/day")
+        st.write(f)- 🎟 Activities: RM {budget*0.1/days:,.2f}/day")
     else:
         st.warning("Number of days must be at least 1")
         st.stop()
-   
+# Enter your OpenWeatherMap API key here
+api_key = "8447cc1e7a0d0d0d8ceef48fbf8ddee2"
 
-    # Packing List
+     # Packing List
     st.markdown("### 🧳 Packing List")
     for item in generate_packing_list(destination):
         st.write(f"- {item}")
@@ -275,4 +276,4 @@ if st.button("✨ Generate Trip Plan"):
     st.info("🎟️ Use your student ID for discounts on transport and museum entries.")
     st.info("🏨 Book accommodation early for better deals.")
     st.info("🗺️ Check the map above for key attractions in your destination.")
-    st.info("🍽️ Try local street food for budget-friendly meals.")
+    st.info("🍽️ Try local street food for budget-friendly meals.")(can you repair the trip summary part ,i want the budget keep raising when the person add a day on the trip )
