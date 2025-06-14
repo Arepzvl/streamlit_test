@@ -214,7 +214,7 @@ api_key = "8447cc1e7a0d0d0d8ceef48fbf8ddee2"
 
 
     # Packing List
-    st.markdown("### 🧳 Packing List")
+    st.markdown("###  Packing List")
     for item in generate_packing_list(destination):
         st.write(f"- {item}")
 
