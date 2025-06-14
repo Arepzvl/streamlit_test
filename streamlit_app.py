@@ -162,21 +162,27 @@ api_key = "8447cc1e7a0d0d0d8ceef48fbf8ddee2"
 # === Trip Planner ===
 if st.button("✨ Generate Trip Plan"):
     end_date = start_date + datetime.timedelta(days=days - 1)
-    daily_budget = budget / days
-
-  #Trip Summary
+    
+    # Trip Summary - Fixed indentation and logic
     st.success("✅ Trip Summary")
     st.write(f"📍 **Destination**: {destination}")
     st.write(f"📅 **From**: {start_date.strftime('%b %d, %Y')} to {end_date.strftime('%b %d, %Y')}")
-    st.write(f"💸 **Daily Budget**: RM {daily_budget:.2f}")
-else:
-    st.warning("Number of days must be at least 1")
-   
+    st.write(f"💰 **Total Budget**: RM {budget:,.2f}")
+    
+    if days > 0:
+        daily_budget = budget / days
+        st.write(f"📊 **Daily Budget**: RM {daily_budget:,.2f} (for {days} days)")
+    else:
+        st.warning("Number of days must be at least 1")
+        st.stop()  # Stop execution if days is 0
 
     # Packing List
     st.markdown("### 🧳 Packing List")
     for item in generate_packing_list(destination):
         st.write(f"- {item}")
+
+    # Rest of your code remains the same...
+    # Weather Info, Map, Attractions, etc.
 
     # Weather Info
     st.markdown("### 🌦️ Current Weather")
