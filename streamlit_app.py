@@ -2,6 +2,8 @@ import streamlit as st
 import pandas as pd
 import datetime
 import requests
+from streamlit_folium import st_folium
+import folium
 
 # === Page Configuration ===
 st.set_page_config(page_title="Student Travel Planner", layout="centered")
@@ -26,6 +28,21 @@ def get_weather(destination, api_key):
         return weather
     else:
         return None
+
+# === Geocoding Function (Nominatim) ===
+def get_coordinates(place):
+    url = "https://nominatim.openstreetmap.org/search"
+    params = {
+        "q": place,
+        "format": "json",
+        "limit": 1
+    }
+    response = requests.get(url, params=params, headers={"User-Agent": "student-travel-planner"})
+    if response.status_code == 200 and response.json():
+        data = response.json()[0]
+        return float(data["lat"]), float(data["lon"])
+    else:
+        return None, None
 
 # === Packing List Generator ===
 def generate_packing_list(destination):
@@ -85,10 +102,18 @@ if st.button("✨ Generate Trip Plan"):
     else:
         st.warning("Could not fetch weather data. Please check your API key or destination name.")
 
+    # Map View
+    lat, lon = get_coordinates(destination)
+    if lat and lon:
+        st.markdown("### 🗺️ Map View")
+        m = folium.Map(location=[lat, lon], zoom_start=12)
+        folium.Marker([lat, lon], tooltip=destination).add_to(m)
+        st_folium(m, width=700, height=500)
+    else:
+        st.warning("Could not fetch map data for the destination.")
+
     # Travel Tips
     st.markdown("### 💡 Student Travel Tips")
     st.info("🎟️ Use your student ID for discounts on transport and museum entries.")
     st.info("🏨 Book accommodation early for better deals.")
-
-
 
