@@ -36,6 +36,16 @@ def generate_packing_list(destination):
     general = ["🧥 Clothes", "🎧 Earphones", "🔌 Power bank", "🎫 Student ID"]
     beach_items = ["🩱 Swimsuit", "🧴 Sunscreen", "🕶 Sunglasses"]
     cold_items = ["🧤 Gloves", "🧣 Scarf", "🧥 Jacket"]
+    international_items = ["🛂 Passport", "✈️ Boarding Pass", "💵 Foreign Currency"]
+
+    if destination.lower() in ["langkawi", "pulau pinang", "penang"]:
+        return general + beach_items
+    elif destination.lower() in ["cameron highlands"]:
+        return general + cold_items
+    elif destination.lower() == "singapore":
+        return general + international_items  # Add passport for Singapore trips
+    else:
+        return general
 
     if destination.lower() in ["langkawi", "pulau pinang", "penang"]:
         return general + beach_items
