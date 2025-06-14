@@ -288,4 +288,4 @@ if st.button("✨ Generate Trip Plan"):
     st.info("🎟️ Use your student ID for discounts on transport and museum entries.")
     st.info("🏨 Book accommodation early for better deals.")
     st.info("🗺️ Check the map above for key attractions in your destination.")
-    st.info("🍽️ Try local street food for budget-friendly meals.")( can we add a suggestion for budget hotel on this program ?)
+    st.info("🍽️ Try local street food for budget-friendly meals.")
