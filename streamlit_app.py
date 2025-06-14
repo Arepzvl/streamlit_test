@@ -69,6 +69,12 @@ DESTINATION_ATTRACTIONS = {
         {"name": "Pantai Teluk kemang", "coords": (2.454562, 101.8599476), "type": "icon", "color": "lightblue", "icon": "umbrella"},
         {"name": "Port Dickson Ornamental Fish Center", "coords": (2.463292413830889, 101.85039595269518), "type": "icon", "color": "blue", "icon": "camera"},
     ],
+    "Melaka":[
+        {"name": "Jonker Street Night Market", "coords": (2.1950778007253806, 102.24845147301384), "type": "icon", "color": "red", "icon": "shopping-cart"},
+        {"name": "A Famosa", "coords": (2.1920185802100858, 102.25046435952073), "type": "icon", "color": "blue", "icon": "camera"},
+        {"name": "Taming Sari Tower", "coords": (2.1911108173642373, 102.24703204602767), "type": "icon", "color": "blue", "icon": "camera"}, 
+        {"name": "Muzium Samudera", "coords": (2.192013291333821, 102.24724510130268), "type": "icon", "color": "blue", "icon": "camera"},
+    ],
     "Kuantan":[
         {"name": "Teluk Cempedak", "coords": (3.8134673607867153, 103.37036876780307), "type": "icon", "color": "lightblue", "icon": "umbrella"},
         {"name": "Menara Kuantan 188", "coords": (3.80421487213873, 103.32754978650692), "type": "icon", "color": "red", "icon": "camera"},
@@ -118,6 +124,7 @@ DESTINATION_ATTRACTIONS = {
 DESTINATION_COORDS = {
     "Kuala Lumpur": (3.1390, 101.6869),
     "Port Dickson": (2.522540, 101.796295),
+    "Melaka": (2.3263, 102.3464),
     "Kuantan": (3.8201, 103.3322),
     "Johor": (1.9344, 103.3587),
     "Terengganu": (5.0936, 102.9896),
@@ -135,6 +142,7 @@ st.subheader("Plan your next student adventure easily!")
 destination = st.selectbox("🌍 Select Destination", [
     "Kuala Lumpur",
     "Port Dickson",
+    "Melaka",
     "Kuantan",
     "Johor",
     "Terengganu",
