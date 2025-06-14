@@ -16,6 +16,45 @@ def get_weather(destination, api_key):
         "appid": api_key,
         "units": "metric"
     }
+  # Add this function near your other API functions
+def get_hotel_suggestions(destination, budget_range="low"):
+    try:
+        url = "https://booking-com.p.rapidapi.com/v1/hotels/locations"
+        querystring = {"name": destination, "locale":"en-gb"}
+        headers = {
+            "X-RapidAPI-Key": "5742ec0d6dmsh5c71930597ff3b0p186184jsn8eeb827667e3",  # Sign up at rapidapi.com
+            "X-RapidAPI-Host": "booking-com.p.rapidapi.com"
+        }
+        response = requests.get(url, headers=headers, params=querystring)
+        
+        if response.status_code == 200:
+            hotels = response.json()
+            return [{
+                "name": h.get('name'),
+                "price": f"RM{h.get('price', 'N/A')}",
+                "link": h.get('url', '#')
+            } for h in hotels[:3]]  # Return top 3
+        return []
+    except:
+        return []
+
+# Then modify your hotel display section:
+    # Hotel Suggestions
+    st.markdown("### 🏨 Budget Hotel Suggestions (Live Data)")
+    hotels = get_hotel_suggestions(destination)
+    
+    if hotels:
+        cols = st.columns(min(3, len(hotels)))
+        for i, hotel in enumerate(hotels):
+            with cols[i]:
+                st.markdown(f"**{hotel['name']}**")
+                st.write(f"💵 Price: {hotel['price']}")
+                st.markdown(f"[Check Availability]({hotel['link']})", unsafe_allow_html=True)
+    else:
+        st.info("No live hotel data available. Check these sites:")
+        st.markdown("- [Agoda](https://www.agoda.com)")
+        st.markdown("- [Booking.com](https://www.booking.com)")
+    
     response = requests.get(base_url, params=params)
     if response.status_code == 200:
         data = response.json()
