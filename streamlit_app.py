@@ -276,4 +276,4 @@ api_key = "8447cc1e7a0d0d0d8ceef48fbf8ddee2"
     st.info("🎟️ Use your student ID for discounts on transport and museum entries.")
     st.info("🏨 Book accommodation early for better deals.")
     st.info("🗺️ Check the map above for key attractions in your destination.")
-    st.info("🍽️ Try local street food for budget-friendly meals.")(can you repair the trip summary part ,i want the budget keep raising when the person add a day on the trip )
+    st.info("🍽️ Try local street food for budget-friendly meals.")
