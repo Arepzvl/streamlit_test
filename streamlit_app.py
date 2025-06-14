@@ -202,8 +202,8 @@ if st.button("✨ Generate Trip Plan"):
         st.markdown("### 💰 Budget Allocation Guide")
         st.write(f"-  Accommodation: RM {budget*0.4/days:,.2f}/day")
         st.write(f"-  Food: RM {budget*0.3/days:,.2f}/day") 
-        st.write(f)-  Transport: RM {budget*0.2/days:,.2f}/day")
-        st.write(f)-  Activities: RM {budget*0.1/days:,.2f}/day")
+        st.write(f"-  Transport: RM {budget*0.2/days:,.2f}/day")
+        st.write(f"-  Activities: RM {budget*0.1/days:,.2f}/day")
     else:
         st.warning("Number of days must be at least 1")
         st.stop()
