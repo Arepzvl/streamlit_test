@@ -66,6 +66,32 @@ def get_nearby_attractions(lat, lon, radius=5000, limit=5):
     except:
         return "Could not fetch attractions"
 
+def get_nearby_hotels(lat, lon, radius=5000):
+    try:
+        url = f"https://overpass-api.de/api/interpreter"
+        query = f"""
+        [out:json];
+        (
+          node["tourism"="hotel"](around:{radius},{lat},{lon});
+          way["tourism"="hotel"](around:{radius},{lat},{lon});
+          relation["tourism"="hotel"](around:{radius},{lat},{lon});
+        );
+        out center;
+        """
+        response = requests.get(url, params={'data': query})
+        return response.json().get('elements', [])[:3]
+    except:
+        return []
+
+# Usage in your trip planner:
+    if weather:
+        nearby_hotels = get_nearby_hotels(lat, lon)
+        if nearby_hotels:
+            st.markdown("### 🏨 Nearby Hotels")
+            for hotel in nearby_hotels:
+                name = hotel.get('tags', {}).get('name', 'Unnamed Hotel')
+                st.markdown(f"- {name}")
+
 # === Predefined Interesting Places ===
 DESTINATION_ATTRACTIONS = {
     "Kuala Lumpur": [
