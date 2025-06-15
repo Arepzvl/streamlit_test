@@ -240,10 +240,10 @@ api_key = "8447cc1e7a0d0d0d8ceef48fbf8ddee2"
    # end_date = start_date + datetime.timedelta(days=days - 1)
     
     # Trip Summary
-    st.success("✅ Trip Summary")
-    st.write(f"📍 **Destination**: {destination}")
-    st.write(f"📅 **From**: {start_date.strftime('%b %d, %Y')} to {end_date.strftime('%b %d, %Y')}")
-    st.write(f"💰 **Total Budget**: RM {budget:,.2f}")
+  #  st.success("✅ Trip Summary")
+   # st.write(f"📍 **Destination**: {destination}")
+   # st.write(f"📅 **From**: {start_date.strftime('%b %d, %Y')} to {end_date.strftime('%b %d, %Y')}")
+   # st.write(f"💰 **Total Budget**: RM {budget:,.2f}")
     
     if days > 0:
         daily_budget = budget / days
