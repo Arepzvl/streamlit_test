@@ -175,20 +175,31 @@ st.title("🎒 Student Travel Planner")
 st.subheader("Plan your next student adventure easily!")
 
 # === Inputs ===
-destination = st.selectbox("🌍 Select Destination", [
-    "Kuala Lumpur",
-    "Port Dickson",
-    "Melaka", 
-    "Kuantan",
-    "Johor",
-    "Terengganu",
-    "Penang",
-    "Langkawi",
-    "Cameron Highlands",
-    "Singapore",
-])
-days = st.slider("📅 Number of Days", 1, 14, 3)
-start_date = st.date_input("📆 Start Date", datetime.date.today())
+destination = st.selectbox("🌍 Select Destination", 
+    [
+        "",  # Empty string as first option for unselected state
+        "Kuala Lumpur",
+        "Port Dickson",
+        "Melaka", 
+        "Kuantan",
+        "Johor",
+        "Terengganu",
+        "Penang",
+        "Langkawi",
+        "Cameron Highlands",
+        "Singapore",
+    ],
+    index=0  # Start with first option (empty string)
+)
+
+# Then modify the trip planner button check to require a destination selection
+if st.button("✨ Generate Trip Plan"):
+    if not destination:  # Check if destination is empty
+        st.error("Please select a destination first!")
+        st.stop()
+    
+    end_date = start_date + datetime.timedelta(days=days - 1)
+    # Rest of your existing code...
 
 # Base budget amounts by destination type
 base_budgets = {
@@ -225,8 +236,8 @@ budget = st.number_input("💸 Your estimated budget (MYR)",
 api_key = "8447cc1e7a0d0d0d8ceef48fbf8ddee2"
 
 # === Trip Planner ===
-if st.button("✨ Generate Trip Plan"):
-    end_date = start_date + datetime.timedelta(days=days - 1)
+#if st.button("✨ Generate Trip Plan"):
+   # end_date = start_date + datetime.timedelta(days=days - 1)
     
     # Trip Summary
     st.success("✅ Trip Summary")
