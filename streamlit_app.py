@@ -83,14 +83,6 @@ def get_nearby_hotels(lat, lon, radius=5000):
     except:
         return []
 
-# Usage in your trip planner:
-    if weather:
-        nearby_hotels = get_nearby_hotels(lat, lon)
-        if nearby_hotels:
-            st.markdown("### 🏨 Nearby Hotels")
-            for hotel in nearby_hotels:
-                name = hotel.get('tags', {}).get('name', 'Unnamed Hotel')
-                st.markdown(f"- {name}")
 
 # === Predefined Interesting Places ===
 DESTINATION_ATTRACTIONS = {
